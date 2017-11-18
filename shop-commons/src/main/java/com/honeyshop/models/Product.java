@@ -1,43 +1,36 @@
 package com.honeyshop.models;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.*;
 
-import java.time.LocalDate;
-
+@Entity
+@Table(name = "products")
 public class Product {
 
-    private long productId;
-    private long productListId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String productName;
-    private LocalDate dateSold;
+    private Double price;
     private String description;
-
-    public Product(long productId, long productListId, String productName, LocalDate dateSold, String description) {
-        this.productId = productId;
-        this.productListId = productListId;
-        this.productName = productName;
-        this.dateSold = dateSold;
-        this.description = description;
-    }
+    @OneToOne
+    private ProductDetail productDetail;
 
     public Product() {
-
     }
 
-    public long getProductId() {
-        return productId;
+    public Product(String productName, Double price, String description, ProductDetail productDetail) {
+        this.productName = productName;
+        this.price = price;
+        this.description = description;
+        this.productDetail = productDetail;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public long getId() {
+        return id;
     }
 
-    public long getProductListId() {
-        return productListId;
-    }
-
-    public void setProductListId(long productListId) {
-        this.productListId = productListId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getProductName() {
@@ -48,12 +41,12 @@ public class Product {
         this.productName = productName;
     }
 
-    public LocalDate getDateSold() {
-        return dateSold;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setDateSold(LocalDate dateSold) {
-        this.dateSold = dateSold;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getDescription() {
@@ -64,27 +57,11 @@ public class Product {
         this.description = description;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-
-        Product product = (Product) o;
-
-        if (productId != product.productId) return false;
-        if (productListId != product.productListId) return false;
-        if (productName != null ? !productName.equals(product.productName) : product.productName != null) return false;
-        if (dateSold != null ? !dateSold.equals(product.dateSold) : product.dateSold != null) return false;
-        return description != null ? description.equals(product.description) : product.description == null;
+    public ProductDetail getProductDetail() {
+        return productDetail;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (productId ^ (productId >>> 32));
-        result = 31 * result + (int) (productListId ^ (productListId >>> 32));
-        result = 31 * result + (productName != null ? productName.hashCode() : 0);
-        result = 31 * result + (dateSold != null ? dateSold.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+    public void setProductDetail(ProductDetail productDetail) {
+        this.productDetail = productDetail;
     }
 }
