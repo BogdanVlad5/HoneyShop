@@ -1,0 +1,195 @@
+Index: shop-commons/src/main/java/com/honeyshop/dao/CommentDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shop-commons/src/main/java/com/honeyshop/dao/CommentDao.java	(revision f6faabc35612aa91c2dd15df148cd2c93644414b)
++++ shop-commons/src/main/java/com/honeyshop/dao/CommentDao.java	(revision )
+@@ -29,7 +29,7 @@
+     }
+ 
+     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+-    public void deleteComment(int id){
++    public void deleteComment(long id){
+         Comment comment = entityManager.find(Comment.class,id);
+         if(comment !=null){
+             entityManager.remove(comment);
+Index: shop-commons/src/main/java/com/honeyshop/models/Product.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shop-commons/src/main/java/com/honeyshop/models/Product.java	(revision f6faabc35612aa91c2dd15df148cd2c93644414b)
++++ shop-commons/src/main/java/com/honeyshop/models/Product.java	(revision )
+@@ -15,14 +15,19 @@
+     @OneToOne
+     private ProductDetail productDetail;
+ 
++    @OneToOne
++    private Sale sale;
++
+     public Product() {
+     }
+ 
+-    public Product(String productName, Double price, String description, ProductDetail productDetail) {
++    public Product(String productName, Double price, String description, ProductDetail productDetail, Sale sale) {
+         this.productName = productName;
+         this.price = price;
+         this.description = description;
+         this.productDetail = productDetail;
++        this.sale = sale;
++
+     }
+ 
+     public long getId() {
+@@ -64,4 +69,13 @@
+     public void setProductDetail(ProductDetail productDetail) {
+         this.productDetail = productDetail;
+     }
++
++    public Sale getSale() {
++        return sale;
++    }
++
++    public void setSale(Sale sale) {
++        this.sale = sale;
++    }
++
+ }
+Index: shop-commons/src/main/java/com/honeyshop/models/Sale.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shop-commons/src/main/java/com/honeyshop/models/Sale.java	(revision )
++++ shop-commons/src/main/java/com/honeyshop/models/Sale.java	(revision )
+@@ -0,0 +1,71 @@
++package com.honeyshop.models;
++
++import org.apache.derby.client.am.DateTime;
++
++import javax.persistence.*;
++import java.time.format.DateTimeFormatter;
++
++@Entity
++@Table(name="sale")
++public class Sale {
++
++    @Id
++    @GeneratedValue(strategy = GenerationType.IDENTITY)
++    private long id;
++    private DateTime dateSold;
++    private int amountSold;
++    private boolean available;
++
++    @OneToOne
++    private Product product;
++
++    public Sale() {
++    }
++
++    public Sale(DateTime dateSold, int amountSold, Product product, boolean available) {
++        this.dateSold = dateSold;
++        this.amountSold = amountSold;
++        this.product = product;
++        this.available = available;
++    }
++
++    public long getId() {
++        return id;
++    }
++
++    public void setId(long id) {
++        this.id = id;
++    }
++
++    public DateTime getDateSold() {
++        return dateSold;
++    }
++
++    public void setDateSold(DateTime dateSold) {
++        this.dateSold = dateSold;
++    }
++
++    public int getAmountSold() {
++        return amountSold;
++    }
++
++    public void setAmountSold(int amountSold) {
++        this.amountSold = amountSold;
++    }
++
++    public Product getProduct() {
++        return product;
++    }
++
++    public void setProduct(Product product) {
++        this.product = product;
++    }
++
++    public boolean isAvailable() {
++        return available;
++    }
++
++    public void setAvailable(boolean available) {
++        this.available = available;
++    }
++}
+Index: shop-commons/src/main/java/com/honeyshop/dao/SaleDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shop-commons/src/main/java/com/honeyshop/dao/SaleDao.java	(revision )
++++ shop-commons/src/main/java/com/honeyshop/dao/SaleDao.java	(revision )
+@@ -0,0 +1,38 @@
++package com.honeyshop.dao;
++
++import com.honeyshop.models.Sale;
++
++import javax.ejb.Stateless;
++import javax.ejb.TransactionAttribute;
++import javax.ejb.TransactionAttributeType;
++import javax.persistence.EntityManager;
++import javax.persistence.PersistenceContext;
++
++@Stateless
++public class SaleDao {
++
++    @PersistenceContext(unitName="shop-PU")
++    EntityManager entityManager;
++
++    public Sale findOne(Long id) {
++        return entityManager.find(Sale.class, id);
++    }
++
++    @TransactionAttribute(TransactionAttributeType.REQUIRED)
++    public void insert(Sale sale) {
++        entityManager.persist(sale);
++    }
++
++    @TransactionAttribute(TransactionAttributeType.REQUIRED)
++    public void editSale(Sale sale){
++        entityManager.merge(sale);
++    }
++
++    @TransactionAttribute(TransactionAttributeType.REQUIRED)
++    public void deleteSale(long id){
++        Sale sale = entityManager.find(Sale.class,id);
++        if(sale !=null){
++            entityManager.remove(sale);
++        }
++    }
++}
+Index: shop-commons/src/main/java/com/honeyshop/services/SaleService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shop-commons/src/main/java/com/honeyshop/services/SaleService.java	(revision )
++++ shop-commons/src/main/java/com/honeyshop/services/SaleService.java	(revision )
+@@ -0,0 +1,4 @@
++package com.honeyshop.services;
++
++public class SaleService {
++}

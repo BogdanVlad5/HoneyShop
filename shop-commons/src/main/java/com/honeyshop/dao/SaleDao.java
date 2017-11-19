@@ -1,6 +1,6 @@
 package com.honeyshop.dao;
 
-import com.honeyshop.models.Comment;
+import com.honeyshop.models.Sale;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -9,30 +9,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class CommentDao {
+public class SaleDao {
 
     @PersistenceContext(unitName="shop-PU")
     EntityManager entityManager;
 
-    public Comment findOne(Long id) {
-        return entityManager.find(Comment.class, id);
+    public Sale findOne(Long id) {
+        return entityManager.find(Sale.class, id);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void insert(Comment comment) {
-        entityManager.persist(comment);
+    public void insert(Sale sale) {
+        entityManager.persist(sale);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void editComment(Comment comment){
-        entityManager.merge(comment);
+    public void editSale(Sale sale){
+        entityManager.merge(sale);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void deleteComment(long id){
-        Comment comment = entityManager.find(Comment.class,id);
-        if(comment !=null){
-            entityManager.remove(comment);
+    public void deleteSale(long id){
+        Sale sale = entityManager.find(Sale.class,id);
+        if(sale !=null){
+            entityManager.remove(sale);
         }
     }
 }

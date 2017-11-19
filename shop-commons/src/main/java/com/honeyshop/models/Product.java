@@ -15,14 +15,19 @@ public class Product {
     @OneToOne
     private ProductDetail productDetail;
 
+    @OneToOne
+    private Sale sale;
+
     public Product() {
     }
 
-    public Product(String productName, Double price, String description, ProductDetail productDetail) {
+    public Product(String productName, Double price, String description, ProductDetail productDetail, Sale sale) {
         this.productName = productName;
         this.price = price;
         this.description = description;
         this.productDetail = productDetail;
+        this.sale = sale;
+
     }
 
     public long getId() {
@@ -64,4 +69,13 @@ public class Product {
     public void setProductDetail(ProductDetail productDetail) {
         this.productDetail = productDetail;
     }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+
 }
