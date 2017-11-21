@@ -1,9 +1,6 @@
 package com.honeyshop.models;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PRODUCTS")
@@ -15,8 +12,12 @@ public class Product extends AbstractEntity {
     @OneToOne
     @JoinColumn(name = "PRODUCT_DETAIL_ID")
     private ProductDetail productDetail;
-    @OneToOne
-    @JoinColumn(name = "SALE_ID")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "PRODUCTS_SALES", joinColumns = {
+            @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "SALE_ID", referencedColumnName = "ID")
+    })
     private Sale sale;
 
     public Product() {
