@@ -10,10 +10,11 @@
         <class>com.honeyshop.models.Product</class>
         <class>com.honeyshop.models.Comment</class>
         <class>com.honeyshop.models.ProductDetail</class>
+        <class>com.honeyshop.models.Sale</class>
 
         <properties>
             <property name="eclipselink.target-database" value="MYSQL"/>
-            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
         </properties>
     </persistence-unit>
 </persistence>
