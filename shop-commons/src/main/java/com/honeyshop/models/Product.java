@@ -1,6 +1,7 @@
 package com.honeyshop.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "PRODUCTS")
@@ -18,7 +19,7 @@ public class Product extends AbstractEntity {
     }, inverseJoinColumns = {
             @JoinColumn(name = "SALE_ID", referencedColumnName = "ID")
     })
-    private Sale sale;
+    private List<Sale> sale;
 
     public Product() {
     }
