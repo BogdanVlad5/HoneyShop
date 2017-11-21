@@ -1,38 +1,29 @@
 package com.honeyshop.models;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "productDetails")
+@Table(name = "PRODUCT_DETAILS")
 public class ProductDetail extends AbstractEntity {
 
-    @OneToOne
-    private Product product;
     private String image;
     private Double rating;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "PRODUCT_DETAILS_COMMENTS", joinColumns = {
+            @JoinColumn(name = "PRODUCT_DETAILS_ID", referencedColumnName = "ID")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "COMMENT_ID", referencedColumnName = "ID")
+    })
     private List<Comment> comments;
 
     public ProductDetail() {
     }
 
-    public ProductDetail(Product product, String image, Double rating, List<Comment> comments) {
-        this.product = product;
+    public ProductDetail(String image, Double rating, List<Comment> comments) {
         this.image = image;
         this.rating = rating;
         this.comments = comments;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public String getImage() {

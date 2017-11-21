@@ -1,20 +1,22 @@
 package com.honeyshop.models;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "products")
+@Table(name = "PRODUCTS")
 public class Product extends AbstractEntity {
 
     private String productName;
     private Double price;
     private String description;
     @OneToOne
+    @JoinColumn(name = "PRODUCT_DETAIL_ID")
     private ProductDetail productDetail;
-
     @OneToOne
+    @JoinColumn(name = "SALE_ID")
     private Sale sale;
 
     public Product() {

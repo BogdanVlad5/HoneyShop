@@ -6,23 +6,19 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "sales")
+@Table(name = "SALES")
 public class Sale extends AbstractEntity {
 
     private LocalDate dateSold;
     private int amountSold;
     private boolean available;
 
-    @OneToOne
-    private Product product;
-
     public Sale() {
     }
 
-    public Sale(LocalDate dateSold, int amountSold, Product product, boolean available) {
+    public Sale(LocalDate dateSold, int amountSold, boolean available) {
         this.dateSold = dateSold;
         this.amountSold = amountSold;
-        this.product = product;
         this.available = available;
     }
 
@@ -40,14 +36,6 @@ public class Sale extends AbstractEntity {
 
     public void setAmountSold(int amountSold) {
         this.amountSold = amountSold;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public boolean isAvailable() {

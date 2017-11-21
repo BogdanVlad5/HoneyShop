@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "COMMENTS")
 public class Comment extends AbstractEntity {
 
     private String name;
