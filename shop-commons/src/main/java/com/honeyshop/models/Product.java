@@ -24,7 +24,7 @@ public class Product extends AbstractEntity {
     public Product() {
     }
 
-    public Product(String productName, Double price, String description, ProductDetail productDetail, Sale sale) {
+    public Product(String productName, Double price, String description, ProductDetail productDetail, List<Sale> sale) {
         this.productName = productName;
         this.price = price;
         this.description = description;
@@ -65,12 +65,11 @@ public class Product extends AbstractEntity {
         this.productDetail = productDetail;
     }
 
-    public Sale getSale() {
+    public List<Sale> getSale() {
         return sale;
     }
 
-    public void setSale(Sale sale) {
+    public void setSale(List<Sale> sale) {
         this.sale = sale;
     }
-
 }
