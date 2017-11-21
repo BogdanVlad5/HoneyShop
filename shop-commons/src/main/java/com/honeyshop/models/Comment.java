@@ -1,14 +1,12 @@
 package com.honeyshop.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class Comment extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String name;
     private String email;
     private String review;
@@ -22,14 +20,6 @@ public class Comment {
         this.email = email;
         this.review = review;
         this.likes = likes;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -1,15 +1,15 @@
 package com.honeyshop.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
 @Table(name = "productDetails")
-public class ProductDetail {
+public class ProductDetail extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
     @OneToOne
     private Product product;
     private String image;
@@ -25,14 +25,6 @@ public class ProductDetail {
         this.image = image;
         this.rating = rating;
         this.comments = comments;
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
     }
 
     public Product getProduct() {

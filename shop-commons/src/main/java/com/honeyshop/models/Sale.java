@@ -1,18 +1,15 @@
 package com.honeyshop.models;
 
-import org.apache.derby.client.am.DateTime;
-
-import javax.persistence.*;
-import java.time.format.DateTimeFormatter;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
-@Table(name="sale")
-public class Sale {
+@Table(name = "sales")
+public class Sale extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private DateTime dateSold;
+    private LocalDate dateSold;
     private int amountSold;
     private boolean available;
 
@@ -22,26 +19,18 @@ public class Sale {
     public Sale() {
     }
 
-    public Sale(DateTime dateSold, int amountSold, Product product, boolean available) {
+    public Sale(LocalDate dateSold, int amountSold, Product product, boolean available) {
         this.dateSold = dateSold;
         this.amountSold = amountSold;
         this.product = product;
         this.available = available;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public DateTime getDateSold() {
+    public LocalDate getDateSold() {
         return dateSold;
     }
 
-    public void setDateSold(DateTime dateSold) {
+    public void setDateSold(LocalDate dateSold) {
         this.dateSold = dateSold;
     }
 
