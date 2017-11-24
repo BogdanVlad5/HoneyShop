@@ -7,6 +7,7 @@ import java.util.List;
 @Table(name = "PRODUCTS")
 public class Product extends AbstractEntity {
 
+    @Column(name = "PRODUCT_NAME")
     private String productName;
     private Double price;
     private String description;

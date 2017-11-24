@@ -1,5 +1,6 @@
 package com.honeyshop.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -9,7 +10,9 @@ import java.time.LocalDate;
 @Table(name = "SALES")
 public class Sale extends AbstractEntity {
 
+    @Column(name = "DATE_SOLD")
     private LocalDate dateSold;
+    @Column(name = "AMOUNT_SOLD")
     private int amountSold;
     private boolean available;
 
