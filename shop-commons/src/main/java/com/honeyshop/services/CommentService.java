@@ -13,6 +13,6 @@ public class CommentService {
     private CommentDao commentDao;
 
     public Comment findOne(Long id) {
-        return commentDao.findOne(id);
+        return commentDao.findOne(id, Comment.class);
     }
 }
