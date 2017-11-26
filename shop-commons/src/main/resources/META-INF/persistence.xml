@@ -11,6 +11,10 @@
         <class>com.honeyshop.models.Comment</class>
         <class>com.honeyshop.models.ProductDetail</class>
         <class>com.honeyshop.models.Sale</class>
+        <class>com.honeyshop.models.Customer</class>
+        <class>com.honeyshop.models.Order</class>
+        <class>com.honeyshop.models.OrderHistory</class>
+        <class>com.honeyshop.models.User</class>
 
         <properties>
             <property name="eclipselink.target-database" value="MYSQL"/>
