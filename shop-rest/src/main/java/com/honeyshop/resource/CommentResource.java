@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/comments")
 public class CommentResource {
@@ -29,6 +30,17 @@ public class CommentResource {
     {
         Comment comment = commentService.findOne(id);
         GenericEntity<Comment> adapted = new GenericEntity<Comment>(comment) {
+        };
+        return Response.ok(adapted).build();
+    }
+
+    @GET
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getComments()
+    {
+        List<Comment> comments = commentService.findAll();
+        GenericEntity<List<Comment>> adapted = new GenericEntity<List<Comment>>(comments) {
         };
         return Response.ok(adapted).build();
     }
