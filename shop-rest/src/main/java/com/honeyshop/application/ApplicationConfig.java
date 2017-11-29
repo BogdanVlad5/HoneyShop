@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.honeyshop.provider.MyJacksonJsonProvider;
 import com.honeyshop.resource.CommentResource;
+import com.honeyshop.resource.UserResource;
 
 @ApplicationPath("/rest")
 public class ApplicationConfig extends Application {
@@ -21,6 +22,7 @@ public class ApplicationConfig extends Application {
         //we could also use this: resources.add(com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider.class);
         resources.add(MyJacksonJsonProvider.class);
         resources.add(CommentResource.class);
+        resources.add(UserResource.class);
 
         return resources;
     }

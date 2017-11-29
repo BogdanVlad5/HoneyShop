@@ -19,15 +19,14 @@ public class CommentResource {
     private CommentService commentService;
 
     @Inject
-    public CommentResource(CommentService commentService){
+    public CommentResource(CommentService commentService) {
         this.commentService = commentService;
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCommentById(@PathParam("id") Long id)
-    {
+    public Response getCommentById(@PathParam("id") Long id) {
         Comment comment = commentService.findOne(id);
         GenericEntity<Comment> adapted = new GenericEntity<Comment>(comment) {
         };
@@ -37,8 +36,7 @@ public class CommentResource {
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getComments()
-    {
+    public Response getComments() {
         List<Comment> comments = commentService.findAll();
         GenericEntity<List<Comment>> adapted = new GenericEntity<List<Comment>>(comments) {
         };
