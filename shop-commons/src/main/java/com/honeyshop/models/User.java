@@ -12,14 +12,16 @@ public class User extends AbstractEntity{
     private String password;
     @OneToOne
     private Customer customer;
+    private String role;
 
     public User() {
     }
 
-    public User(String email, String password, Customer customer) {
+    public User(String email, String password, Customer customer, String role) {
         this.email = email;
         this.password = password;
         this.customer = customer;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -44,5 +46,13 @@ public class User extends AbstractEntity{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

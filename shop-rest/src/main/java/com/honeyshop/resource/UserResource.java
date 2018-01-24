@@ -2,12 +2,12 @@ package com.honeyshop.resource;
 
 import com.honeyshop.models.User;
 import com.honeyshop.services.UserService;
+import org.glassfish.jersey.internal.util.Base64;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
@@ -17,8 +17,14 @@ import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 @Path("/users")
 public class UserResource {
 
+    private static final String AUTHORIZATION_PROPERTY = "Authorization";
+    private static final String AUTHENTICATION_SCHEME = "Basic";
+
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private HttpHeaders httpHeaders;
 
     private UserService userService;
 
@@ -27,19 +33,24 @@ public class UserResource {
         this.userService = userService;
     }
 
+    @PermitAll
     @POST
     @Path("/login")
-    @Consumes(APPLICATION_FORM_URLENCODED)
     public Response authenticateUser(@FormParam("login") String login,
                                      @FormParam("password") String password) {
         try {
             // Authenticate the user using the credentials provided
-            userService.authenticate(login, password);
-            // Issue a token for the user
-            //String token = issueToken(login);
-            // Return the token on the response
-            //return Response.ok().header(AUTHORIZATION, "Bearer " + token).build();
-            return Response.ok().build();//temporary
+            User user = userService.authenticate(login, password);
+            httpHeaders.getRequestHeader(AUTHORIZATION_PROPERTY).clear();
+
+            String authString = login + ":" + password;
+            byte[] authEncBytes = Base64.encode(authString.getBytes());
+            String usernameAndPassword = new String(AUTHENTICATION_SCHEME + " " + new String(authEncBytes));
+
+            httpHeaders.getRequestHeader(AUTHORIZATION_PROPERTY).add(usernameAndPassword);
+            GenericEntity<User> adapted = new GenericEntity<User>(user) {
+            };
+            return Response.ok(user).build();
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();
         }
@@ -58,7 +69,9 @@ public class UserResource {
 
         if (user == null)
             return Response.status(NOT_FOUND).build();
-        return Response.ok(user).build();
+        GenericEntity<User> adapted = new GenericEntity<User>(user) {
+        };
+        return Response.ok(adapted).build();
     }
 
     @GET

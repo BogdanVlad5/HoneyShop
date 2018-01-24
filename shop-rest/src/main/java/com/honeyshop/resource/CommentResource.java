@@ -3,6 +3,7 @@ package com.honeyshop.resource;
 import com.honeyshop.models.Comment;
 import com.honeyshop.services.CommentService;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,6 +34,7 @@ public class CommentResource {
         return Response.ok(adapted).build();
     }
 
+    @PermitAll
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)

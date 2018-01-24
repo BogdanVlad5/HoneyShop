@@ -20,9 +20,10 @@ public class UserService extends GenericServiceImpl<User> {
         this.userDao = (UserDao) getGenericDao();
     }
 
-    public void authenticate(String email, String password) throws Exception {
+    public User authenticate(String email, String password) throws Exception {
         User user = userDao.findByUsernameAndPassword(email, password);
-        if (user == null)
-            throw new SecurityException("Invalid user/password");
+        if (user != null){
+            return user;
+        }else return null;
     }
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.honeyshop.provider.AuthenticationFilter;
 import com.honeyshop.provider.MyJacksonJsonProvider;
 import com.honeyshop.resource.CommentResource;
 import com.honeyshop.resource.UserResource;
@@ -21,6 +22,7 @@ public class ApplicationConfig extends Application {
         resources.add(org.glassfish.jersey.jackson.JacksonFeature.class);
         //we could also use this: resources.add(com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider.class);
         resources.add(MyJacksonJsonProvider.class);
+        resources.add(AuthenticationFilter.class);
         resources.add(CommentResource.class);
         resources.add(UserResource.class);
 
