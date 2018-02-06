@@ -54,4 +54,8 @@ public abstract class GenericServiceImpl<T extends AbstractEntity> {
     public void delete(T persistentObject) {
         genericDao.delete(persistentObject);
     }
+
+    public GenericDaoImpl<T, Long> getGenericDao() {
+        return genericDao;
+    }
 }

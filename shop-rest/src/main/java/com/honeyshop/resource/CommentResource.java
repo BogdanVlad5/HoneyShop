@@ -3,6 +3,7 @@ package com.honeyshop.resource;
 import com.honeyshop.models.Comment;
 import com.honeyshop.services.CommentService;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -19,26 +20,25 @@ public class CommentResource {
     private CommentService commentService;
 
     @Inject
-    public CommentResource(CommentService commentService){
+    public CommentResource(CommentService commentService) {
         this.commentService = commentService;
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCommentById(@PathParam("id") Long id)
-    {
+    public Response getCommentById(@PathParam("id") Long id) {
         Comment comment = commentService.findOne(id);
         GenericEntity<Comment> adapted = new GenericEntity<Comment>(comment) {
         };
         return Response.ok(adapted).build();
     }
 
+    @PermitAll
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getComments()
-    {
+    public Response getComments() {
         List<Comment> comments = commentService.findAll();
         GenericEntity<List<Comment>> adapted = new GenericEntity<List<Comment>>(comments) {
         };
