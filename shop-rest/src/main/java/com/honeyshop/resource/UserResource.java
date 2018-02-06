@@ -1,6 +1,7 @@
 package com.honeyshop.resource;
 
 import com.honeyshop.models.User;
+import com.honeyshop.resource.commons.UserLoginRequest;
 import com.honeyshop.services.UserService;
 import org.glassfish.jersey.internal.util.Base64;
 
@@ -36,21 +37,20 @@ public class UserResource {
     @PermitAll
     @POST
     @Path("/login")
-    public Response authenticateUser(@FormParam("login") String login,
-                                     @FormParam("password") String password) {
+    public Response authenticateUser(UserLoginRequest userLoginRequest) {
         try {
             // Authenticate the user using the credentials provided
-            User user = userService.authenticate(login, password);
+            User user = userService.authenticate(userLoginRequest.getUsername(), userLoginRequest.getPassword());
             httpHeaders.getRequestHeader(AUTHORIZATION_PROPERTY).clear();
 
-            String authString = login + ":" + password;
+            String authString = userLoginRequest.getUsername() + ":" + userLoginRequest.getPassword();
             byte[] authEncBytes = Base64.encode(authString.getBytes());
             String usernameAndPassword = new String(AUTHENTICATION_SCHEME + " " + new String(authEncBytes));
 
             httpHeaders.getRequestHeader(AUTHORIZATION_PROPERTY).add(usernameAndPassword);
             GenericEntity<User> adapted = new GenericEntity<User>(user) {
             };
-            return Response.ok(user).build();
+            return Response.ok(adapted).build();
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();
         }
