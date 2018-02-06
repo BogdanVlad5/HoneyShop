@@ -6,6 +6,7 @@ import com.honeyshop.models.User;
 import com.honeyshop.services.generic.GenericServiceImpl;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 @Stateless
 public class UserService extends GenericServiceImpl<User> {
@@ -15,6 +16,7 @@ public class UserService extends GenericServiceImpl<User> {
     public UserService() {
     }
 
+    @Inject
     public UserService(UserDao userDao) {
         super(userDao);
         this.userDao = (UserDao) getGenericDao();

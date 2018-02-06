@@ -6,6 +6,7 @@ import com.honeyshop.services.UserService;
 import org.glassfish.jersey.internal.util.Base64;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -37,20 +38,19 @@ public class UserResource {
     @PermitAll
     @POST
     @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response authenticateUser(UserLoginRequest userLoginRequest) {
         try {
             // Authenticate the user using the credentials provided
             User user = userService.authenticate(userLoginRequest.getUsername(), userLoginRequest.getPassword());
-            httpHeaders.getRequestHeader(AUTHORIZATION_PROPERTY).clear();
 
             String authString = userLoginRequest.getUsername() + ":" + userLoginRequest.getPassword();
             byte[] authEncBytes = Base64.encode(authString.getBytes());
             String usernameAndPassword = new String(AUTHENTICATION_SCHEME + " " + new String(authEncBytes));
 
-            httpHeaders.getRequestHeader(AUTHORIZATION_PROPERTY).add(usernameAndPassword);
             GenericEntity<User> adapted = new GenericEntity<User>(user) {
             };
-            return Response.ok(adapted).build();
+            return Response.ok().header(AUTHORIZATION_PROPERTY,usernameAndPassword).build();
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();
         }
@@ -64,6 +64,7 @@ public class UserResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     public Response findById(@PathParam("id") String id) {
         User user = userService.findOne(Long.parseLong(id));
 

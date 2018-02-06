@@ -43,9 +43,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         Method method = resourceInfo.getResourceMethod();
         //Access allowed for all
-        if( ! method.isAnnotationPresent(PermitAll.class)){
+        if (!method.isAnnotationPresent(PermitAll.class)) {
             //Access denied for all
-            if(method.isAnnotationPresent(DenyAll.class)){
+            if (method.isAnnotationPresent(DenyAll.class)) {
                 requestContext.abortWith(ACCESS_FORBIDDEN);
                 return;
             }
@@ -56,8 +56,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
 
             //If no authorization information present; block access
-            if(authorization == null || authorization.isEmpty())
-            {
+            if (authorization == null || authorization.isEmpty()) {
                 requestContext.abortWith(ACCESS_DENIED);
                 return;
             }
@@ -74,14 +73,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             final String password = tokenizer.nextToken();
 
             //Verify user access
-            if(method.isAnnotationPresent(RolesAllowed.class))
-            {
+            if (method.isAnnotationPresent(RolesAllowed.class)) {
                 RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
                 Set<String> rolesSet = new HashSet<String>(Arrays.asList(rolesAnnotation.value()));
 
                 //Is user valid?
-                if( ! isUserAllowed(username, password, rolesSet))
-                {
+                if (!isUserAllowed(username, password, rolesSet)) {
                     requestContext.abortWith(ACCESS_DENIED);
                     return;
                 }
@@ -89,28 +86,19 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
     }
 
-    private boolean isUserAllowed(final String username, final String password, final Set<String> rolesSet)
-    {
+    private boolean isUserAllowed(final String username, final String password, final Set<String> rolesSet) {
         boolean isAllowed = false;
-
-        //Step 1. Fetch password from database and match with password in argument
-        //If both match then get the defined role for user from database and continue; else return isAllowed [false]
-        //Access the database and do this part yourself
-        //String userRole = userMgr.getUserRole(username);
-        User user = null;
+        User user;
         try {
             user = userService.authenticate(username, password);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
-        if(user != null && username.equals(user.getEmail()) && password.equals(user.getPassword()))
-        {
+        if (user != null && username.equals(user.getEmail()) && password.equals(user.getPassword())) {
             String userRole = user.getRole();
-
-            //Step 2. Verify user role
-            if(rolesSet.contains(userRole))
-            {
+            if (rolesSet.contains(userRole)) {
                 isAllowed = true;
             }
         }
