@@ -12,7 +12,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
@@ -50,19 +50,18 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                 return;
             }
             //Get request headers
-            final MultivaluedMap<String, String> headers = requestContext.getHeaders();
-
+            final Map<String, Cookie> cookies = requestContext.getCookies();
             //Fetch authorization header
-            final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
+            final Cookie cookieAuth = cookies.get(AUTHORIZATION_PROPERTY);
 
             //If no authorization information present; block access
-            if (authorization == null || authorization.isEmpty()) {
+            if (cookieAuth == null || cookieAuth.getValue().isEmpty() || cookieAuth.getValue().equals(null)) {
                 requestContext.abortWith(ACCESS_DENIED);
                 return;
             }
 
             //Get encoded username and password
-            final String encodedUserPassword = authorization.get(0).replaceFirst(AUTHENTICATION_SCHEME + " ", "");
+            final String encodedUserPassword = cookieAuth.getValue().replaceFirst(AUTHENTICATION_SCHEME + " ", "");
 
             //Decode username and password
             String usernameAndPassword = new String(Base64.decode(encodedUserPassword.getBytes()));
