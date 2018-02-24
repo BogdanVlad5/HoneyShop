@@ -1,16 +1,17 @@
 package com.honeyshop.application;
 
+import com.honeyshop.provider.AuthenticationFilter;
+import com.honeyshop.provider.MyJacksonJsonProvider;
+import com.honeyshop.resource.CommentResource;
+import com.honeyshop.resource.ShoppingCartResource;
+import com.honeyshop.resource.UserResource;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.honeyshop.provider.AuthenticationFilter;
-import com.honeyshop.provider.MyJacksonJsonProvider;
-import com.honeyshop.resource.CommentResource;
-import com.honeyshop.resource.UserResource;
 
 @ApplicationPath("/rest")
 public class ApplicationConfig extends Application {
@@ -25,7 +26,7 @@ public class ApplicationConfig extends Application {
         resources.add(AuthenticationFilter.class);
         resources.add(CommentResource.class);
         resources.add(UserResource.class);
-
+        resources.add(ShoppingCartResource.class);
         return resources;
     }
 
