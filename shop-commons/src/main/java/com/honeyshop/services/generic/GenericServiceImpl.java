@@ -19,10 +19,6 @@ public abstract class GenericServiceImpl<T extends AbstractEntity> {
     public GenericServiceImpl() {
     }
 
-    public GenericServiceImpl(GenericDaoImpl genericDao) {
-        this.genericDao = genericDao;
-    }
-
     public boolean create(T newInstance) {
         if (genericDao.findOne(newInstance.getId()) == null) {
             genericDao.create(newInstance);

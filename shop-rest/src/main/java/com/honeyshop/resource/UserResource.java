@@ -20,7 +20,7 @@ public class UserResource {
 
     private static final String AUTHORIZATION_PROPERTY = "Authorization";
     private static final String AUTHENTICATION_SCHEME = "Basic";
-    private static final int MAX_AGE = 60 * 1000 * 10;
+    private static final int MAX_AGE = 60 * 60 * 24;
     private static final String EXPIRE = ";Max-Age=0";
 
     @Context
@@ -29,12 +29,13 @@ public class UserResource {
     @Context
     private HttpHeaders httpHeaders;
 
+    @Inject
     private UserService userService;
 
-    @Inject
-    public UserResource(UserService userService) {
-        this.userService = userService;
-    }
+//    @Inject
+//    public UserResource(UserService userService) {
+//        this.userService = userService;
+//    }
 
     @PermitAll
     @POST
@@ -52,7 +53,7 @@ public class UserResource {
             GenericEntity<User> adapted = new GenericEntity<User>(user) {
             };
             NewCookie authCookie = new NewCookie(AUTHORIZATION_PROPERTY+"", usernameAndPassword+"",
-                    "/", "", "comment", 60 * 60 * 24, false);
+                    "/", "", "comment", MAX_AGE, false);
             return Response.ok(adapted).cookie(authCookie).build();
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();

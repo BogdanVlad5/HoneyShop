@@ -11,32 +11,28 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Stateless
-public class ShoppingCartService extends GenericServiceImpl<ShoppingCart>{
-
-    private ProductDao productDao;
-    private ShoppingCartDao shoppingCartDao;
-
-    public ShoppingCartService(){}
+public class ShoppingCartService extends GenericServiceImpl<ShoppingCart> {
 
     @Inject
-    public ShoppingCartService(ProductDao productDao, ShoppingCartDao shoppingCartDao) {
-        super(shoppingCartDao);
-        this.shoppingCartDao = shoppingCartDao;
-        this.productDao = productDao;
+    private ProductDao productDao;
+    @Inject
+    private ShoppingCartDao shoppingCartDao;
+
+    public ShoppingCartService() {
     }
 
     public void addProduct(Long productId, int quantity) {
         List<ShoppingCart> cart = shoppingCartDao.findAll();
         AtomicBoolean exists = new AtomicBoolean(false);
         cart.forEach((ShoppingCart cartItem) -> {
-            if(cartItem.getProduct().getId() == productId){
+            if (cartItem.getProduct().getId() == productId) {
                 cartItem.setQuantity(cartItem.getQuantity() + quantity);
                 shoppingCartDao.update(cartItem);
                 exists.set(true);
             }
         });
-        if (!exists.get()){
-            shoppingCartDao.create(new ShoppingCart(productDao.findOne(productId),quantity));
+        if (!exists.get()) {
+            shoppingCartDao.create(new ShoppingCart(productDao.findOne(productId), quantity));
         }
     }
 }
