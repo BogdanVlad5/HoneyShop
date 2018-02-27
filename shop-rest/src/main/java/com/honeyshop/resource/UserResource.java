@@ -51,9 +51,8 @@ public class UserResource {
 
             GenericEntity<User> adapted = new GenericEntity<User>(user) {
             };
-
-            NewCookie authCookie = NewCookie.valueOf(AUTHORIZATION_PROPERTY +
-                    "=" + usernameAndPassword + ";Max-Age=" + MAX_AGE);
+            NewCookie authCookie = new NewCookie(AUTHORIZATION_PROPERTY+"", usernameAndPassword+"",
+                    "/", "", "comment", 60 * 60 * 24, false);
             return Response.ok(adapted).cookie(authCookie).build();
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();
