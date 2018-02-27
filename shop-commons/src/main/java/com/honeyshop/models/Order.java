@@ -1,27 +1,32 @@
 package com.honeyshop.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "ORDERS")
-public class Order extends AbstractEntity{
+public class Order extends AbstractEntity {
 
+    @OneToOne
     private Customer customer;
     private String trackingNumber;
     private OrderStatus orderStatus;
-    private List<Product> productList;
+    @OneToMany
+    @JoinTable(name = "ORDER_SALES", joinColumns = {
+            @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "SALE_ID", referencedColumnName = "ID")
+    })
+    private List<Sale> sales;
 
     public Order() {
     }
 
-    public Order(Customer customer, String trackingNumber, OrderStatus orderStatus, List<Product> list) {
+    public Order(Customer customer, String trackingNumber, OrderStatus orderStatus, List<Sale> list) {
         this.customer = customer;
         this.trackingNumber = trackingNumber;
         this.orderStatus = orderStatus;
-        this.productList = list;
+        this.sales = list;
     }
 
     public Customer getCustomer() {
@@ -48,11 +53,11 @@ public class Order extends AbstractEntity{
         this.orderStatus = orderStatus;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+    public List<Sale> getSales() {
+        return sales;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setSales(List<Sale> sales) {
+        this.sales = sales;
     }
 }

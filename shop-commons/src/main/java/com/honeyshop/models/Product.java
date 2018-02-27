@@ -14,24 +14,15 @@ public class Product extends AbstractEntity {
     @OneToOne
     @JoinColumn(name = "PRODUCT_DETAIL_ID")
     private ProductDetail productDetail;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PRODUCTS_SALES", joinColumns = {
-            @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "SALE_ID", referencedColumnName = "ID")
-    })
-    private List<Sale> sale;
 
     public Product() {
     }
 
-    public Product(String productName, Double price, String description, ProductDetail productDetail, List<Sale> sale) {
+    public Product(String productName, Double price, String description, ProductDetail productDetail) {
         this.productName = productName;
         this.price = price;
         this.description = description;
         this.productDetail = productDetail;
-        this.sale = sale;
-
     }
 
     public String getProductName() {
@@ -66,11 +57,4 @@ public class Product extends AbstractEntity {
         this.productDetail = productDetail;
     }
 
-    public List<Sale> getSale() {
-        return sale;
-    }
-
-    public void setSale(List<Sale> sale) {
-        this.sale = sale;
-    }
 }

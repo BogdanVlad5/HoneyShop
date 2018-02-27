@@ -1,51 +1,62 @@
 package com.honeyshop.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "SALES")
 public class Sale extends AbstractEntity {
 
-    @Column(name = "DATE_SOLD")
-    private LocalDate dateSold;
-    @Column(name = "AMOUNT_SOLD")
-    private int amountSold;
-    private boolean available;
+    private Integer quantity;
+    private Long totalPrice;
+    private Product product;
+
+    private Order order;
 
     public Sale() {
     }
 
-    public Sale(LocalDate dateSold, int amountSold, boolean available) {
-        this.dateSold = dateSold;
-        this.amountSold = amountSold;
-        this.available = available;
+    public Sale(Integer quantity, Long totalPrice, Product product, Order order) {
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.product = product;
+        this.order = order;
     }
 
-    public LocalDate getDateSold() {
-        return dateSold;
+    public Sale(Integer quantity, Long totalPrice) {
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
     }
 
-    public void setDateSold(LocalDate dateSold) {
-        this.dateSold = dateSold;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public int getAmountSold() {
-        return amountSold;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
-    public void setAmountSold(int amountSold) {
-        this.amountSold = amountSold;
+    public Long getTotalPrice() {
+        return totalPrice;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
