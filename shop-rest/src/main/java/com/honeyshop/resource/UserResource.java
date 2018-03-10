@@ -8,6 +8,7 @@ import org.glassfish.jersey.internal.util.Base64;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.List;
@@ -27,15 +28,10 @@ public class UserResource {
     private UriInfo uriInfo;
 
     @Context
-    private HttpHeaders httpHeaders;
+    private HttpServletRequest request;
 
     @Inject
     private UserService userService;
-
-//    @Inject
-//    public UserResource(UserService userService) {
-//        this.userService = userService;
-//    }
 
     @PermitAll
     @POST
@@ -52,6 +48,8 @@ public class UserResource {
 
             GenericEntity<User> adapted = new GenericEntity<User>(user) {
             };
+            request.getSession(true);
+            request.getSession().setAttribute("user", usernameAndPassword);
             NewCookie authCookie = new NewCookie(AUTHORIZATION_PROPERTY+"", usernameAndPassword+"",
                     "/", "", "comment", MAX_AGE, false);
             return Response.ok(adapted).cookie(authCookie).build();
@@ -64,6 +62,7 @@ public class UserResource {
     @GET
     @Path("/logout")
     public Response logout() {
+        request.getSession(false);
         NewCookie cookie = NewCookie.valueOf(AUTHORIZATION_PROPERTY + EXPIRE);
         return Response.ok().cookie(cookie).build();
     }
