@@ -3,8 +3,10 @@ package com.honeyshop.application;
 import com.honeyshop.provider.AuthenticationFilter;
 import com.honeyshop.provider.MyJacksonJsonProvider;
 import com.honeyshop.resource.CommentResource;
+import com.honeyshop.resource.FileResource;
 import com.honeyshop.resource.ShoppingCartResource;
 import com.honeyshop.resource.UserResource;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -23,10 +25,12 @@ public class ApplicationConfig extends Application {
         resources.add(org.glassfish.jersey.jackson.JacksonFeature.class);
         //we could also use this: resources.add(com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider.class);
         resources.add(MyJacksonJsonProvider.class);
+        resources.add(MultiPartFeature.class);
         resources.add(AuthenticationFilter.class);
         resources.add(CommentResource.class);
         resources.add(UserResource.class);
         resources.add(ShoppingCartResource.class);
+        resources.add(FileResource.class);
         return resources;
     }
 
