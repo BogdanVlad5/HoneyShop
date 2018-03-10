@@ -13,13 +13,17 @@ public class ShoppingCart extends AbstractEntity{
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
     private Product product;
     private int quantity;
+    @OneToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private User user;
 
     public ShoppingCart() {
     }
 
-    public ShoppingCart(Product product, int quantity) {
+    public ShoppingCart(Product product, int quantity, User user) {
         this.product = product;
         this.quantity = quantity;
+        this.user = user;
     }
 
     public Product getProduct() {
@@ -36,5 +40,13 @@ public class ShoppingCart extends AbstractEntity{
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
