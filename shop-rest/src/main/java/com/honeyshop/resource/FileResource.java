@@ -53,7 +53,7 @@ public class FileResource {
                 return Response.ok(new ByteArrayInputStream(imageData)).build();
             }
         } catch (IOException e) {
-            return Response.ok("Something went wrong!").build();
+            return Response.noContent().build();
         }
     }
 }
