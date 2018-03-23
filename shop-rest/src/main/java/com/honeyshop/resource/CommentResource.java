@@ -5,10 +5,7 @@ import com.honeyshop.services.CommentService;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -44,4 +41,27 @@ public class CommentResource {
         };
         return Response.ok(adapted).build();
     }
+
+    @PermitAll
+    @POST
+    public Response postComment(Comment comment) {
+        commentService.create(comment);
+        return  Response.ok().build();
+    }
+
+    @PermitAll
+    @PUT
+    @Path("/update")
+    public Response editComment(Comment editedComment) {
+        Comment comment = commentService.findOne(editedComment.getId());
+        comment.setEmail(editedComment.getEmail());
+        comment.setLikes(editedComment.getLikes());
+        comment.setName(editedComment.getName());
+        comment.setReview(editedComment.getReview());
+        commentService.update(comment);
+
+        return  Response.ok().build();
+    }
+
+
 }

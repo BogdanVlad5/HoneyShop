@@ -11,4 +11,5 @@ public class CommentDao extends GenericDaoImpl<Comment, Long> {
     public CommentDao() {
         super(Comment.class);
     }
+
 }

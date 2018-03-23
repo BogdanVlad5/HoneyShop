@@ -11,16 +11,14 @@ public class Sale extends AbstractEntity {
     private Long totalPrice;
     private Product product;
 
-    private Order order;
 
     public Sale() {
     }
 
-    public Sale(Integer quantity, Long totalPrice, Product product, Order order) {
+    public Sale(Integer quantity, Long totalPrice, Product product) {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.product = product;
-        this.order = order;
     }
 
     public Sale(Integer quantity, Long totalPrice) {
@@ -52,11 +50,4 @@ public class Sale extends AbstractEntity {
         this.product = product;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }

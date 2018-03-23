@@ -20,7 +20,7 @@ public abstract class GenericServiceImpl<T extends AbstractEntity> {
     }
 
     public boolean create(T newInstance) {
-        if (genericDao.findOne(newInstance.getId()) == null) {
+        if (newInstance.getId() == null || genericDao.findOne(newInstance.getId()) == null) {
             genericDao.create(newInstance);
             return true;
         }

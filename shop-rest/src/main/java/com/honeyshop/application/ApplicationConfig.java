@@ -2,10 +2,7 @@ package com.honeyshop.application;
 
 import com.honeyshop.provider.AuthenticationFilter;
 import com.honeyshop.provider.MyJacksonJsonProvider;
-import com.honeyshop.resource.CommentResource;
-import com.honeyshop.resource.FileResource;
-import com.honeyshop.resource.ShoppingCartResource;
-import com.honeyshop.resource.UserResource;
+import com.honeyshop.resource.*;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.ws.rs.ApplicationPath;
@@ -29,6 +26,7 @@ public class ApplicationConfig extends Application {
         resources.add(AuthenticationFilter.class);
         resources.add(CommentResource.class);
         resources.add(UserResource.class);
+        resources.add(OrderResource.class);
         resources.add(ShoppingCartResource.class);
         resources.add(FileResource.class);
         return resources;
