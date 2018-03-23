@@ -36,7 +36,7 @@ public class FileResource {
     @PermitAll
     @GET
     @Path("/{fileName}")
-    @Produces({"image/*"})
+    @Produces({"image/*", MediaType.WILDCARD})
     public Response getImage(@PathParam("fileName") String fileName) {
         BufferedImage image = null;
         try {

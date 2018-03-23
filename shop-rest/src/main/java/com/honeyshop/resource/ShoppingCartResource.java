@@ -45,7 +45,7 @@ public class ShoppingCartResource {
             request.getSession().setAttribute("shoppingCart", null);
         }
         List<Cart> shoppingCart = (List<Cart>) request.getSession().getAttribute("shoppingCart");
-        if (shoppingCart == null || shoppingCart.isEmpty()) {
+        if (shoppingCart == null || !shoppingCart.isEmpty()) {
             String userStr = (String) request.getSession().getAttribute("user");
             try{
                 User user = userService.decodeUser(userStr);
