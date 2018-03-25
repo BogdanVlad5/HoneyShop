@@ -10,7 +10,7 @@ VALUES (0, "Telefon Mobil Google Pixel 2 XL, 64GB, Just Black", 4399, "some desc
 
 -- users + customer
 INSERT INTO users (VERSION, EMAIL, PASSWORD, ROLE)
-VALUES (0, "gutabogdanvlad@gmail.com", "parola", "ADMIN");
+VALUES (0, "bogdan@gmail.com", "parola", "ADMIN");
 INSERT INTO customers(VERSION, ADDRESS, FIRST_NAME, LAST_NAME, USER_ID)
 VALUES (0, "some address", "Bogdan", "Guta", 1);
 UPDATE users SET CUSTOMER_ID = 1 WHERE ID = 1;
