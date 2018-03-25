@@ -1,5 +1,9 @@
 package com.honeyshop.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -9,21 +13,22 @@ public class Sale extends AbstractEntity {
 
     private Integer quantity;
     private Long totalPrice;
+    @OneToOne
+    @JsonManagedReference
     private Product product;
-
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ORDER_ID")
+    @JsonBackReference
+    private Order order;
 
     public Sale() {
     }
 
-    public Sale(Integer quantity, Long totalPrice, Product product) {
+    public Sale(Integer quantity, Long totalPrice, Product product, Order order) {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.product = product;
-    }
-
-    public Sale(Integer quantity, Long totalPrice) {
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
+        this.order = order;
     }
 
     public Integer getQuantity() {
@@ -50,4 +55,11 @@ public class Sale extends AbstractEntity {
         this.product = product;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }

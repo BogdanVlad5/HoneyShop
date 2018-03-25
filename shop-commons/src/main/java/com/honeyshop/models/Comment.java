@@ -1,12 +1,20 @@
 package com.honeyshop.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "COMMENTS")
 public class Comment extends AbstractEntity {
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "PRODUCT_ID")
+    @JsonBackReference
+    private Product product;
     private String name;
     private String email;
     private String review;
@@ -15,7 +23,8 @@ public class Comment extends AbstractEntity {
     public Comment() {
     }
 
-    public Comment(String name, String email, String review, Integer likes) {
+    public Comment(Product product, String name, String email, String review, Integer likes) {
+        this.product = product;
         this.name = name;
         this.email = email;
         this.review = review;
@@ -52,5 +61,13 @@ public class Comment extends AbstractEntity {
 
     public void setLikes(Integer likes) {
         this.likes = likes;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

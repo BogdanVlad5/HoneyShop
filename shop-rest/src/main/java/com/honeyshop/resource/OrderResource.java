@@ -1,5 +1,6 @@
 package com.honeyshop.resource;
 
+import com.honeyshop.models.Order;
 import com.honeyshop.models.OrderStatus;
 import com.honeyshop.models.ShoppingCart;
 import com.honeyshop.services.OrderService;
@@ -7,6 +8,8 @@ import com.honeyshop.services.OrderService;
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -35,8 +38,12 @@ public class OrderResource {
     @PermitAll
     @GET
     @Path("/{id}")
-    public Response getOrder(@QueryParam("id") long id){
-        return Response.ok(orderService.findOne(id)).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrder(@PathParam("id") long id){
+        Order order = orderService.findOne(id);
+        GenericEntity<Order> adapted = new GenericEntity<Order>(order) {
+        };
+        return Response.ok(adapted).build();
     }
 
 }

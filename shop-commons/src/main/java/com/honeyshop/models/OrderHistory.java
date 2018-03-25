@@ -14,7 +14,8 @@ public class OrderHistory extends AbstractEntity{
             @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")
     })
     private List<Order> orders;
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
     public OrderHistory() {

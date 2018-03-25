@@ -7,18 +7,18 @@ import com.honeyshop.services.ShoppingCartService;
 import com.honeyshop.services.UserService;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 @Path("/shoppingCart")
 public class ShoppingCartResource {
@@ -89,9 +89,7 @@ public class ShoppingCartResource {
         };
         return Response.ok(adapted).build();
     }
-
-    //nu am verificat daca atunci cand userul ii logat si exista ceva in shopping cart sa updateze si sessionul cu valoarea aia
-
+    
     @GET
     @Path("/test")
     @PermitAll
@@ -102,5 +100,20 @@ public class ShoppingCartResource {
         }
         request.getSession().setAttribute("user", user);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{id}")
+    //@RolesAllowed("ADMIN")
+    @PermitAll
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") String id) {
+        ShoppingCart shoppingCart = shoppingCartService.findOne(Long.parseLong(id));
+
+        if (shoppingCart == null)
+            return Response.status(NOT_FOUND).build();
+        GenericEntity<ShoppingCart> adapted = new GenericEntity<ShoppingCart>(shoppingCart) {
+        };
+        return Response.ok(adapted).build();
     }
 }

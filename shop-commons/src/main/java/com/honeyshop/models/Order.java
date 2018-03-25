@@ -1,5 +1,7 @@
 package com.honeyshop.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,12 +13,8 @@ public class Order extends AbstractEntity {
     private Customer customer;
     private String trackingNumber;
     private OrderStatus orderStatus;
-    @OneToMany
-    @JoinTable(name = "ORDER_SALES", joinColumns = {
-            @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "SALE_ID", referencedColumnName = "ID")
-    })
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Sale> sales;
 
     public Order() {

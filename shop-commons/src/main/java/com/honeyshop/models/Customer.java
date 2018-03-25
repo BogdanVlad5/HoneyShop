@@ -1,25 +1,24 @@
 package com.honeyshop.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "CUSTOMERS")
-public class Customer extends AbstractEntity{
+public class Customer extends AbstractEntity {
 
     @Column(name = "FIRST_NAME")
     private String firstName;
     @Column(name = "LAST_NAME")
     private String lastName;
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private User user;
     private String address;
-    @OneToMany
-    @JoinTable(name = "CUSTOMERS_ORDER_HISTORY", joinColumns = {
-            @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ID")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "ORDER_HISTORY_ID", referencedColumnName = "ID")
-    })
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<OrderHistory> orders;
 
     public Customer() {

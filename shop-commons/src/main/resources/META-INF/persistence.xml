@@ -9,7 +9,6 @@
         <jta-data-source>shop_ds</jta-data-source>
         <class>com.honeyshop.models.Product</class>
         <class>com.honeyshop.models.Comment</class>
-        <class>com.honeyshop.models.ProductDetail</class>
         <class>com.honeyshop.models.Sale</class>
         <class>com.honeyshop.models.Customer</class>
         <class>com.honeyshop.models.Order</class>

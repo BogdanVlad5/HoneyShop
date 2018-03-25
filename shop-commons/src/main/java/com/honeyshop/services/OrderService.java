@@ -12,11 +12,13 @@ import com.honeyshop.services.generic.GenericServiceImpl;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Stateless
 public class OrderService extends GenericServiceImpl<Order>{
 
+    @Inject
     private OrderDao orderDao;
 
     @Inject
@@ -37,7 +39,7 @@ public class OrderService extends GenericServiceImpl<Order>{
         Order order = new Order();
         order.setCustomer(customerDao.findOne(customerId));
         order.setOrderStatus(OrderStatus.PROCESSED);
-        order.setSales(null);
+        order.setSales(Collections.emptyList());
         order.setTrackingNumber("134436573");
         orderDao.create(order);
         shoppingCartList.forEach(shoppingCart -> {

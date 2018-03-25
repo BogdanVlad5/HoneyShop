@@ -1,5 +1,7 @@
 package com.honeyshop.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,22 +13,27 @@ public class Product extends AbstractEntity {
     private String productName;
     private Double price;
     private String description;
-    @OneToOne
-    @JoinColumn(name = "PRODUCT_DETAIL_ID")
-    private ProductDetail productDetail;
+    private String image;
+    private Double rating;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Comment> comments;
 
     public Product() {
     }
 
-    public Product(String productName, Double price, String description, ProductDetail productDetail) {
-        this.productName = productName;
-        this.price = price;
-        this.description = description;
-        this.productDetail = productDetail;
-    }
 
     public String getProductName() {
         return productName;
+    }
+
+    public Product(String productName, Double price, String description, String image, Double rating, List<Comment> comments) {
+        this.productName = productName;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.rating = rating;
+        this.comments = comments;
     }
 
     public void setProductName(String productName) {
@@ -49,12 +56,27 @@ public class Product extends AbstractEntity {
         this.description = description;
     }
 
-    public ProductDetail getProductDetail() {
-        return productDetail;
+    public String getImage() {
+        return image;
     }
 
-    public void setProductDetail(ProductDetail productDetail) {
-        this.productDetail = productDetail;
+    public void setImage(String image) {
+        this.image = image;
     }
 
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }
