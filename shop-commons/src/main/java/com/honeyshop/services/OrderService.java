@@ -18,7 +18,6 @@ import java.util.List;
 @Stateless
 public class OrderService extends GenericServiceImpl<Order>{
 
-    @Inject
     private OrderDao orderDao;
 
     @Inject
