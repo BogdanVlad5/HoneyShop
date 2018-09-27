@@ -11,6 +11,7 @@ import com.honeyshop.services.generic.GenericServiceImpl;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -27,8 +28,9 @@ public class ShoppingCartService extends GenericServiceImpl<ShoppingCart> {
     public ShoppingCartService() {
     }
 
+    @Transactional
     public void addProduct(Long productId, int quantity, User user) {
-        List<ShoppingCart> cart = shoppingCartDao.findAll();
+        List<ShoppingCart> cart = shoppingCartDao.getShoppingCartForUser(user.getId());
         AtomicBoolean exists = new AtomicBoolean(false);
         cart.forEach((ShoppingCart cartItem) -> {
             if (cartItem.getProduct().getId() == productId) {
@@ -64,7 +66,7 @@ public class ShoppingCartService extends GenericServiceImpl<ShoppingCart> {
                     present.set(true);
                 }
             });
-            if (present.get() == false){
+            if (present.get() == false) {
                 shoppingCart.add(new Cart(productId, quantity));
             }
             return shoppingCart;

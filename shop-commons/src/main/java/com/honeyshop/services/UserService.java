@@ -28,7 +28,10 @@ public class UserService extends GenericServiceImpl<User> {
     }
 
 
-    public User decodeUser(String encrypted) {
+    public User decodeUser(String encrypted) throws Exception {
+        if(encrypted == null){
+            throw new Exception("The user is not logged in");
+        }
         final String encodedUserPassword = encrypted.replaceFirst(AUTHENTICATION_SCHEME + " ", "");
 
         String usernameAndPassword = new String(Base64.decode(encodedUserPassword.getBytes()));

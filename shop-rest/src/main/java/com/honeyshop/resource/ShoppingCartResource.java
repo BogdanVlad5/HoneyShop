@@ -59,7 +59,12 @@ public class ShoppingCartResource {
             //trebuie verificat daca exista ceva in db pentru respectivul user pentru a updata sesiunea de shopping cart
             if (request.getSession().getAttribute("user") != null) {
                 String userStr = (String) request.getSession().getAttribute("user");
-                User user = userService.decodeUser(userStr);
+                User user = null;
+                try {
+                    user = userService.decodeUser(userStr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 List<ShoppingCart> dbCartList = shoppingCartService.getShoppingCartForUser(user.getId());
                 //userul nu are nimic in db
                 if (dbCartList == null || dbCartList.isEmpty()) {
